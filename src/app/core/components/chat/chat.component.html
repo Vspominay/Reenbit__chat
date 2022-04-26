@@ -1,0 +1,40 @@
+<div class="chat">
+    <div class="chat-content">
+        <div class="chat-header">
+            <div class="container">
+                <div class="chat-name">
+                    <app-profile-logo
+                        [image]="chat.image"
+                        [online]="true"
+                    ></app-profile-logo>
+                    <span class="name">{{ chat.name }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-main">
+            <div class="container">
+                <div class="chat-block">
+                    <app-message
+                        [senderImage]="chat.image"
+                        [message]="message"
+                        *ngFor="let message of chat.messages"
+                    ></app-message>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-send">
+            <div class="container">
+                <div class="send-block">
+                    <input
+                        placeholder="Start typing..."
+                        type="text"
+                        class="input-send"
+                    />
+                    <span class="icon-send"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

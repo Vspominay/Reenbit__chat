@@ -1,0 +1,50 @@
+@import '../../../../styles/variables.scss';
+
+.message {
+    display: flex;
+    margin-top: 15px;
+    min-height: 40px;
+    justify-content: flex-end;
+    color: $text-color;
+
+
+    &-date{
+        font-size: 10px;
+        color: $text-color;
+        text-align: end;
+    }
+
+    &__content{
+        max-width: 80%;
+        display: flex;
+        align-items: center;
+    }
+    .logo-block{
+        color: $text-color;
+        margin-right: 20px;
+    }
+
+    &-text {
+        margin-bottom: 4px;
+        background-color: #DFDFDF;
+        font-size: 14px;
+        padding: 15px;
+        border-radius: $border-radius;
+    
+    }
+}
+
+.incoming {
+    color: #fff;
+    justify-content: flex-start;
+
+    .message-text{
+        background-color: #3C4153;
+    }
+    .message-date{
+        text-align: start;
+    }
+}
+
+
+

@@ -1,0 +1,14 @@
+<div class="message" [ngClass]="{ incoming: message.sender }">
+    <div class="message__content">
+        <div *ngIf="message.sender && !mobileSize" class="logo-block">
+            <app-profile-logo
+                [image]="senderImage"
+                [online]="false"
+            ></app-profile-logo>
+        </div>
+        <div>
+            <div class="message-text">{{ message.text }}</div>
+            <div class="message-date">{{ message.date | date: "short" }}</div>
+        </div>
+    </div>
+</div>
