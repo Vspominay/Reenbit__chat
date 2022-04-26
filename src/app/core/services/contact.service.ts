@@ -6,14 +6,16 @@ import { ServerDataService } from './server-data.service';
 import { Message } from './../../shared/models/message.model';
 import { Chat } from './../../shared/models/chat.model';
 import { Injectable, Injector } from '@angular/core';
-import { map, Subject } from 'rxjs';
+import { map, Subject, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ContactService {
+    searchValueChange = new Subject<string>();
 
     chatsChanges = new Subject<Chat[]>();
+
 
     private chats: Chat[] = []
 

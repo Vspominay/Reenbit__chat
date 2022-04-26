@@ -2,8 +2,9 @@
     <h3>Chats</h3>
 
     <app-preview-chat
-        *ngFor="let chat of chats; let i = index"
+        *ngFor="let chat of chats | filter: searchString:'name'; let i = index"
         [previewData]="chat"
         [index]="i"
-    ></app-preview-chat>
+    >
+    </app-preview-chat>
 </div>

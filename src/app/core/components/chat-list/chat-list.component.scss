@@ -1,8 +1,9 @@
-.messages-list{
+.messages-list {
     padding: 30px 15px;
 
-    h3{
-        color: #9BDDE6;
+    h3 {
+        pointer-events: none;
+        color: #9bdde6;
         font-size: 24px;
         font-weight: 500;
         margin-bottom: 20px;

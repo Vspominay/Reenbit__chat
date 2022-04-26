@@ -3,7 +3,7 @@ import { Chat } from './../../../shared/models/chat.model';
 import { ContactService } from './../../services/contact.service';
 import { PreviewChat } from './../../../shared/models/preview-chat.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-chat-list',
@@ -13,7 +13,9 @@ import { Subscription } from 'rxjs';
 export class ChatListComponent implements OnInit, OnDestroy {
     private chatsChangeSub!: Subscription;
     private chatsGetSub!: Subscription;
+    private filterSub!: Subscription;
 
+    searchString: string = '';
     chats!: PreviewChat[];
 
     constructor(private contactService: ContactService, private serverDataService: ServerDataService) { }
@@ -28,11 +30,16 @@ export class ChatListComponent implements OnInit, OnDestroy {
             .subscribe(chats => {
                 this.chats = this.generateChats(chats);
             });
+
+        this.filterSub = this.contactService.searchValueChange
+            .subscribe(term => this.searchString = term);
+
     }
 
     ngOnDestroy(): void {
         this.chatsChangeSub.unsubscribe();
         this.chatsGetSub.unsubscribe();
+        this.filterSub.unsubscribe();
     }
 
     private generateChats(chats: Chat[]) {

@@ -38,6 +38,19 @@
         overflow-y: auto;
         display: flex;
         flex-direction: column-reverse;
+        background-color: #fafafa;
+        scrollbar-color: $text-color transparent;
+        scrollbar-width: thin;
+
+        &::-webkit-scrollbar {
+            width: 9px;
+            /* ширина для вертикального скролла */
+            background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: $text-color;
+        }
 
         .chat-block {
             flex-direction: column;
@@ -84,6 +97,7 @@
 
 @media (min-width: 768px) {
     .chat-send {
+        padding: 25px 0;
         .send-block {
             max-width: 100%;
         }
