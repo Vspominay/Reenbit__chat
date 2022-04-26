@@ -1,0 +1,14 @@
+<div class="prewie">
+    <app-profile-logo
+        [image]="previewData.image ? previewData.image : ''"
+        [online]="true"
+    ></app-profile-logo>
+
+    <div class="message-text">
+        <span class="sender-name"> {{ previewData.name }} </span>
+
+        <span class="send-text"> {{ previewData.text | cropText }}</span>
+    </div>
+
+    <div class="message-date">{{ previewData.date | date: "mediumDate" }}</div>
+</div>

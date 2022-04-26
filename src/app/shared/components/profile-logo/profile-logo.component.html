@@ -1,0 +1,13 @@
+<div class="logo-block">
+    <div
+        *ngIf="image"
+        class="photo"
+        [ngStyle]="{
+            'background-image': 'url(' + image + ')'
+        }"
+    ></div>
+
+    <div *ngIf="!image" class="icon-profile"></div>
+
+    <div *ngIf="online" class="icon-check"></div>
+</div>

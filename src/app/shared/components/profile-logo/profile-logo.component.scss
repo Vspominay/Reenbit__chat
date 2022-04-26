@@ -1,0 +1,33 @@
+.logo-block{
+    position: relative;
+    max-height: 40px;
+    max-width: 40px;
+
+    .photo{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .icon-profile{
+        // margin-right: 15px;
+        font-size: 40px;
+    }
+
+    .icon-check{
+        right: -5px;
+        bottom: -10px;
+        position: absolute;
+        color: #19BA79;
+    }
+}
+
+@media (min-width: 428px){
+    .logo-block {
+        .icon-profile {
+            font-size: 30px;
+        }
+    }
+}
