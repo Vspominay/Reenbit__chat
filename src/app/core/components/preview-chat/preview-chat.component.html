@@ -1,7 +1,7 @@
-<div class="prewie">
+<div class="prewie" (click)="setChat()">
     <app-profile-logo
         [image]="previewData.image ? previewData.image : ''"
-        [online]="true"
+        [online]="previewData.online ? previewData.online : false"
     ></app-profile-logo>
 
     <div class="message-text">

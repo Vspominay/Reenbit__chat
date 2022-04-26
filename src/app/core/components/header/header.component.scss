@@ -1,53 +1,48 @@
-@import '../../../styles/variables.scss';
+@import "../../../styles/variables.scss";
 
 .header {
     background-color: $background;
     padding: 15px 0;
-    
-    &__content{
+
+    &__content {
         display: flex;
         align-items: center;
         justify-content: space-between;
-    
-    &-search{
-        position: relative;
 
-        .search-logo{
-            position: absolute;
-            top: 50%;
-            left: 12px;
-            transform: translateY(-50%);
-            font-size: 18px;
-        }
+        &-search {
+            position: relative;
+            margin-left: 10px;
+            .search-logo {
+                position: absolute;
+                top: 50%;
+                left: 12px;
+                transform: translateY(-50%);
+                font-size: 18px;
+            }
 
-        .search-input{
-            max-width: 185px;
-            padding: 9px 10px 9px 35px;
-            border-radius: $border-radius;
-            border: 1px solid $text-color;
-
+            .search-input {
+                max-width: 185px;
+                padding: 9px 10px 9px 35px;
+                border-radius: $border-radius;
+                border: 1px solid $text-color;
+            }
         }
     }
-    }
-
-
-
 }
 
-@media (min-width: 420px){
-    .header{
+@media (min-width: 420px) {
+    .header {
         padding: 45px 0 35px;
-        &__content{
+        &__content {
             flex-direction: column;
             align-items: flex-start;
 
             &-search {
-                margin-top: 35px;
+                margin: 35px 0 0 0;
                 .search-input {
                     max-width: 100%;
                 }
             }
         }
-
     }
 }

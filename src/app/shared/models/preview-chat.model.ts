@@ -3,4 +3,5 @@ export interface PreviewChat {
     date: Date,
     text: string,
     image?: string,
+    online?: boolean
 }

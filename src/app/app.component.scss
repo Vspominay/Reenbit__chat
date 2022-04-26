@@ -1,31 +1,3 @@
-@import '../app/styles/variables.scss';
-
-.chat-list{
-    max-height: 100vh;
+.wrapper {
     display: flex;
-    flex-direction: column;
-}
-.preview-list{
-    max-height: 100%;
-    overflow-y: auto;
-
-
-    scrollbar-color:$background transparent;
-    scrollbar-width: thin ;
-
-    &::-webkit-scrollbar {
-        width: 9px;
-        /* ширина для вертикального скролла */
-        background-color: transparent;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background-color: $background;
-    }
-}
-
-@media (min-width:768px){
-    .chat-list {
-        max-width: 450px;
-    }
 }

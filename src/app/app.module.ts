@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +9,11 @@ import { ProfileLogoComponent } from './shared/components/profile-logo/profile-l
 import { ChatListComponent } from './core/components/chat-list/chat-list.component';
 import { PreviewChatComponent } from './core/components/preview-chat/preview-chat.component';
 import { CropTextPipe } from './shared/pipes/crop-text.pipe';
+import { ChatComponent } from './core/components/chat/chat.component';
+import { MessageComponent } from './core/components/chat/message/message.component';
+import { AppChatComponent } from './core/components/app-chat/app-chat.component';
+import { FormsModule } from '@angular/forms';
+import { TypingLoaderComponent } from './shared/components/typing-loader/typing-loader.component';
 
 @NgModule({
     declarations: [
@@ -17,10 +23,16 @@ import { CropTextPipe } from './shared/pipes/crop-text.pipe';
         ChatListComponent,
         PreviewChatComponent,
         CropTextPipe,
+        ChatComponent,
+        MessageComponent,
+        AppChatComponent,
+        TypingLoaderComponent,
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

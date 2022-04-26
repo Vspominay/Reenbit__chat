@@ -13,7 +13,7 @@
 
     .icon-profile{
         // margin-right: 15px;
-        font-size: 40px;
+        font-size: 36px;
     }
 
     .icon-check{
@@ -21,13 +21,5 @@
         bottom: -10px;
         position: absolute;
         color: #19BA79;
-    }
-}
-
-@media (min-width: 428px){
-    .logo-block {
-        .icon-profile {
-            font-size: 30px;
-        }
     }
 }

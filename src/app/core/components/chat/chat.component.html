@@ -7,7 +7,12 @@
                         [image]="chat.image"
                         [online]="true"
                     ></app-profile-logo>
-                    <span class="name">{{ chat.name }}</span>
+                    <div class="name">
+                        {{ chat.name }}
+                        <div class="loader-block" *ngIf="incomingTyping">
+                            <app-typing-loader></app-typing-loader>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,14 +31,28 @@
 
         <div class="chat-send">
             <div class="container">
-                <div class="send-block">
+                <form
+                    (ngSubmit)="onSubmit(sendForm)"
+                    #sendForm="ngForm"
+                    class="send-block"
+                >
                     <input
+                        ngModel
+                        required
+                        name="messageField"
                         placeholder="Start typing..."
                         type="text"
                         class="input-send"
+                        autocomplete="off"
                     />
-                    <span class="icon-send"></span>
-                </div>
+                    <button
+                        type="submit"
+                        [disabled]="!sendForm.valid"
+                        class="send-btn"
+                    >
+                        <span type="submit" class="icon-send"></span>
+                    </button>
+                </form>
             </div>
         </div>
     </div>

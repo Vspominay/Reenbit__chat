@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    DB_URL: 'https://chat-7063a-default-rtdb.europe-west1.firebasedatabase.app/',
+    CHUCK_API: 'https://api.chucknorris.io/jokes/random'
 };
 
 /*
