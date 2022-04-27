@@ -1,6 +1,7 @@
+import { AuthInterceptorService } from './core/auth/auth-interceptor.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,8 @@ import { TypingLoaderComponent } from './shared/components/typing-loader/typing-
 import { FilterPipe } from './shared/pipes/filter.pipe';
 import { StartChatComponent } from './core/components/chat/start-chat/start-chat.component';
 import { NotificationCountComponent } from './shared/components/notification-count/notification-count.component';
+import { AuthComponent } from './core/auth/auth.component';
+import { LoaderComponent } from './shared/components/loader/loader.component';
 
 @NgModule({
     declarations: [
@@ -33,6 +36,8 @@ import { NotificationCountComponent } from './shared/components/notification-cou
         FilterPipe,
         StartChatComponent,
         NotificationCountComponent,
+        AuthComponent,
+        LoaderComponent,
     ],
     imports: [
         BrowserModule,
@@ -40,7 +45,7 @@ import { NotificationCountComponent } from './shared/components/notification-cou
         HttpClientModule,
         FormsModule
     ],
-    providers: [],
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

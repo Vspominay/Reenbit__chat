@@ -17,7 +17,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     private incomingMsgSub!: Subscription;
     private chatChangesub!: Subscription;
-    private typingLoader = false;
 
     id!: number;
     chat!: Chat;
@@ -42,10 +41,6 @@ export class ChatComponent implements OnInit, OnDestroy {
             .subscribe(() => {
                 this.chat = this.contactService.getChat(this.id);
             });
-
-        if (!this.typingLoader) {
-            localStorage.removeItem(this.id + "");
-        }
     }
 
     ngOnDestroy(): void {
@@ -73,12 +68,14 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.incomingMsgSub = this.contactService.getIncomingMessage()
                 .subscribe(message => {
                     const randomIntervar = Math.round((10 * 1000) - 0.5 + Math.random() * (6 * 1000));
-                    this.typingLoader = true;
+
+                    this.contactService.toogleOnlineStatus(storeId, true);
                     localStorage.setItem(this.id + "", storeId + "");
+
                     setTimeout(() => {
-                        this.typingLoader = false;
                         this.contactService.onAddMessage(storeId, message);
                         localStorage.removeItem(this.id + "");
+                        this.contactService.toogleOnlineStatus(storeId, false);
                     }, randomIntervar);
                 });
         }

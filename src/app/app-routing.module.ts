@@ -1,3 +1,5 @@
+import { AuthGuard } from './core/auth/auth.guard';
+import { AuthComponent } from './core/auth/auth.component';
 import { StartChatComponent } from './core/components/chat/start-chat/start-chat.component';
 import { ChatsResolverService } from './core/services/chats-resolver.service';
 import { ChatComponent } from './core/components/chat/chat.component';
@@ -7,13 +9,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     {
-        path: 'chat', component: AppChatComponent, children:
+        path: 'chat', component: AppChatComponent, canActivate: [AuthGuard], children:
             [
                 { path: ':id', component: ChatComponent, resolve: [ChatsResolverService] },
                 { path: '', component: StartChatComponent },
             ]
     },
-    { path: '', redirectTo: '/chat', pathMatch: 'full' }
+    { path: 'auth', component: AuthComponent },
+    { path: '', redirectTo: '/auth', pathMatch: 'full' }
 ];
 
 @NgModule({

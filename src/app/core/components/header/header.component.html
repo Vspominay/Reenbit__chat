@@ -5,6 +5,7 @@
                 [online]="true"
                 [image]="'../../../../assets/img/girl.jpg'"
             ></app-profile-logo>
+
             <div class="header__content-search">
                 <div class="search-logo icon-search"></div>
                 <input
@@ -14,6 +15,10 @@
                     class="search-input"
                     placeholder="Search..."
                 />
+            </div>
+
+            <div class="logout" (click)="logout()">
+                <span class="icon-exit"></span>
             </div>
         </div>
     </div>

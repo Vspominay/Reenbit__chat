@@ -1,0 +1,87 @@
+<div class="auth-wrapper">
+    <div class="container">
+        <div class="auth-content">
+            <div class="error button-block" *ngIf="errorMessage">
+                {{ errorMessage }}
+                <button class="signIn" (click)="onHandleError()">Ok</button>
+            </div>
+
+            <form
+                *ngIf="!errorMessage"
+                class="auth-form"
+                (ngSubmit)="onSubmit(f)"
+                #f="ngForm"
+            >
+                <div class="auth-title">
+                    {{ isLoginMode ? "Sign In" : "Sign Up" }}
+                </div>
+
+                <div *ngIf="isLoading">
+                    <app-loader></app-loader>
+                </div>
+
+                <div *ngIf="!isLoading">
+                    <div class="auth-block">
+                        <label for="email">Email</label>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            ngModel
+                            required
+                            email
+                        />
+                    </div>
+
+                    <div class="auth-block">
+                        <label for="password">Password</label>
+                        <input
+                            id="password"
+                            type="password"
+                            name="password"
+                            ngModel
+                            required
+                            minlength="6"
+                        />
+                    </div>
+
+                    <div class="button-block">
+                        <button
+                            class="signIn"
+                            [disabled]="!f.valid"
+                            type="submit"
+                        >
+                            {{ isLoginMode ? "Sign In" : "Sign Up" }}
+                        </button>
+                    </div>
+
+                    <div class="switch-block">
+                        <div class="" *ngIf="!isLoginMode">
+                            Have an account?
+                            <button
+                                (click)="onSwitchMode()"
+                                class="switch-btn"
+                                type="button"
+                            >
+                                Sign In
+                            </button>
+                        </div>
+
+                        <div class="" *ngIf="isLoginMode">
+                            First time here?
+                            <button
+                                class="switch-btn"
+                                (click)="onSwitchMode()"
+                                type="button"
+                            >
+                                Sign Up
+                            </button>
+                        </div>
+                    </div>
+
+                    <hr />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

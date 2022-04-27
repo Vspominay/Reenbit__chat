@@ -29,11 +29,17 @@
         }
     }
 }
+.logout {
+    cursor: pointer;
+    transform: rotateY(-180deg);
+    font-size: 18px;
+}
 
 @media (min-width: 420px) {
     .header {
         padding: 45px 0 35px;
         &__content {
+            position: relative;
             flex-direction: column;
             align-items: flex-start;
 
@@ -44,5 +50,11 @@
                 }
             }
         }
+    }
+    .logout {
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 32px;
     }
 }

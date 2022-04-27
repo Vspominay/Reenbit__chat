@@ -7,7 +7,7 @@ import { ServerDataService } from './server-data.service';
 import { Message } from './../../shared/models/message.model';
 import { Chat } from './../../shared/models/chat.model';
 import { Injectable, Injector } from '@angular/core';
-import { map, Subject, Observable } from 'rxjs';
+import { map, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -54,6 +54,8 @@ export class ContactService {
 
         this.sortChats();
         this.updateChatStats();
+
+        localStorage.removeItem(id + "");
     }
 
     updateChatStats() {
@@ -66,11 +68,8 @@ export class ContactService {
                 let storeInfo = JSON.parse(tempChatItem);
 
                 if (storeInfo.messageCount !== chat.messages.length && currentChat !== chat.id) {
-                    console.log(storeInfo);
-                    // console.log("chatId " + chat.id);
 
                     let subMesseges = chat.messages.length - storeInfo.messageCount;
-                    console.log(subMesseges);
 
                     if (subMesseges > 0) {
                         if (this.storeNotification.has(chat.id)) {
@@ -92,10 +91,6 @@ export class ContactService {
         return this.storeNotification.get(id) || 0;
     }
 
-    getAllNewMessages() {
-        return this.storeNotification;
-    }
-
     viewNewMessages(id: number) {
         this.storeNotification.delete(id);
         this.storeNotificationChanged.next(this.storeNotification);
@@ -114,8 +109,15 @@ export class ContactService {
             )
     }
 
-    checkNorification() {
 
+    toogleOnlineStatus(id: number, online: boolean) {
+        for (const chat of this.chats) {
+            if (chat.id === id) {
+                chat.online = online;
+            }
+        }
+
+        this.chatsChanges.next(this.chats.slice());
     }
 
     private sortChats() {
