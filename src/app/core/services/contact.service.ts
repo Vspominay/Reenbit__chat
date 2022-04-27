@@ -1,3 +1,4 @@
+import { NotificationService } from './notification.service';
 import { Joke } from './../../shared/models/joke.model';
 import { httpOptions } from './httpOptions';
 import { environment } from './../../../environments/environment.prod';
@@ -13,13 +14,17 @@ import { map, Subject, Observable } from 'rxjs';
 })
 export class ContactService {
     searchValueChange = new Subject<string>();
-
     chatsChanges = new Subject<Chat[]>();
-
 
     private chats: Chat[] = []
 
-    constructor(private http: HttpClient, private injector: Injector) { }
+    private storeNotification = new Map<number, number>();
+    storeNotificationChanged = new Subject<Map<number, number>>();
+
+    constructor(
+        private http: HttpClient,
+        private injector: Injector,
+        private notificationService: NotificationService) { }
 
 
     getChats() {
@@ -48,6 +53,46 @@ export class ContactService {
         this.injector.get(ServerDataService).saveChats();
 
         this.sortChats();
+        this.updateChatStats();
+
+    }
+
+    updateChatStats() {
+        for (const chat of this.chats) {
+            let tempChatItem = localStorage.getItem(chat.id + 'n');
+
+            localStorage.setItem(chat.id + 'n', JSON.stringify({ chat_id: chat.id, messageCount: chat.messages.length }));
+            if (tempChatItem) {
+                let currentChat = this.notificationService.getCurrentChat();
+                let storeInfo = JSON.parse(tempChatItem);
+
+                if (storeInfo.id !== chat.messages.length && currentChat !== chat.id) {
+                    let subMesseges = chat.messages.length - storeInfo.messageCount;
+                    if (subMesseges > 0) {
+                        if (this.storeNotification.has(chat.id)) {
+                            this.storeNotification.set(chat.id, this.getNewMessageById(chat.id) + subMesseges);
+                        }
+                        else {
+                            this.storeNotification.set(chat.id, subMesseges);
+                        }
+                        this.storeNotificationChanged.next(new Map(this.storeNotification));
+                    }
+                }
+            }
+        }
+    }
+
+    getNewMessageById(id: number) {
+        return this.storeNotification.get(id) || 0;
+    }
+
+    getAllNewMessages() {
+        return this.storeNotification;
+    }
+
+    viewNewMessages(id: number) {
+        this.storeNotification.delete(id);
+        this.storeNotificationChanged.next(this.storeNotification);
     }
 
     getIncomingMessage() {
@@ -61,6 +106,10 @@ export class ContactService {
                     };
                 })
             )
+    }
+
+    checkNorification() {
+
     }
 
     private sortChats() {

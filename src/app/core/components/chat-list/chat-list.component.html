@@ -7,6 +7,7 @@
         <app-preview-chat
             *ngFor="let chat of chats | filter: searchString:'name'"
             [previewData]="chat"
+            [messageCount]="newMessages.get(chat.id) || 0"
         >
         </app-preview-chat>
     </ng-container>

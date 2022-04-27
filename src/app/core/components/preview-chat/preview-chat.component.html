@@ -10,5 +10,13 @@
         <span class="send-text"> {{ previewData.text | cropText }}</span>
     </div>
 
-    <div class="message-date">{{ previewData.date | date: "mediumDate" }}</div>
+    <div class="date-notif">
+        <div class="message-date">
+            {{ previewData.date | date: "mediumDate" }}
+        </div>
+
+        <app-notification-count
+            [countMessage]="messageCount"
+        ></app-notification-count>
+    </div>
 </div>

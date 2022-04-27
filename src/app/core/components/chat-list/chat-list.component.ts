@@ -2,7 +2,7 @@ import { ServerDataService } from './../../services/server-data.service';
 import { Chat } from './../../../shared/models/chat.model';
 import { ContactService } from './../../services/contact.service';
 import { PreviewChat } from './../../../shared/models/preview-chat.model';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
 
@@ -16,10 +16,12 @@ export class ChatListComponent implements OnInit, OnDestroy {
     private chatsChangeSub!: Subscription;
     private chatsGetSub!: Subscription;
     private filterSub!: Subscription;
+    private notificationSub!: Subscription;
 
     searchString: string = '';
     chats!: PreviewChat[];
     filteredChats: PreviewChat[] = [];
+    newMessages: Map<number, number> = new Map();
 
     constructor(
         private contactService: ContactService,
@@ -29,7 +31,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.chatsChangeSub = this.contactService.chatsChanges
             .subscribe((chats: Chat[]) => {
-                this.chats = (this.generateChats(chats));
+                this.chats = this.generateChats(chats);
             })
 
         this.chatsGetSub = this.serverDataService.fetchChats()
@@ -43,12 +45,19 @@ export class ChatListComponent implements OnInit, OnDestroy {
                 this.filterChats();
             });
 
+        this.notificationSub = this.contactService.storeNotificationChanged
+            .subscribe((map) => {
+                this.newMessages = map;
+                console.log(this.newMessages);
+
+            })
     }
 
     ngOnDestroy(): void {
         this.chatsChangeSub.unsubscribe();
         this.chatsGetSub.unsubscribe();
         this.filterSub.unsubscribe();
+        this.notificationSub.unsubscribe();
     }
 
     filterChats() {
@@ -69,6 +78,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
             tempPreview.image = chat.image;
             tempPreview.name = chat.name;
             tempPreview.online = chat.online;
+            tempPreview.messageCount = { chat_id: chat.id, messageCount: chat.messages.length };
 
             resultPreview.push(tempPreview);
         }

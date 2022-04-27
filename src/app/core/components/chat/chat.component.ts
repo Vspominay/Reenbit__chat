@@ -1,3 +1,4 @@
+import { NotificationService } from './../../services/notification.service';
 import { Subscription } from 'rxjs';
 import { Chat } from './../../../shared/models/chat.model';
 import { ContactService } from './../../services/contact.service';
@@ -15,6 +16,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     @ViewChild('onSubmit', { static: false }) sendForm!: NgForm;
 
     private incomingMsgSub!: Subscription;
+    private chatChangesub!: Subscription;
+    private typingLoader = false;
 
     id!: number;
     chat!: Chat;
@@ -22,7 +25,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
         private contactService: ContactService,
-        private router: Router
+        private router: Router,
+        private notificationService: NotificationService
     ) { }
 
     ngOnInit(): void {
@@ -30,16 +34,30 @@ export class ChatComponent implements OnInit, OnDestroy {
             .subscribe((params: Params) => {
                 this.id = +params['id'];
                 this.chat = this.contactService.getChat(this.id);
-            })
+                this.notificationService.currentChat.next(this.id);
+            });
+
+
+        this.chatChangesub = this.contactService.chatsChanges
+            .subscribe(() => {
+                this.chat = this.contactService.getChat(this.id);
+            });
+
+        if (!this.typingLoader) {
+            localStorage.removeItem(this.id + "");
+        }
     }
 
     ngOnDestroy(): void {
         if (this.incomingMsgSub) {
             this.incomingMsgSub.unsubscribe();
         }
+        this.chatChangesub.unsubscribe();
+        localStorage.removeItem(this.id + "");
     }
 
     onSubmit(form: NgForm) {
+
         if (form.valid) {
             const storeId = this.chat.id;;
             const formValue = form.value;
@@ -55,11 +73,12 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.incomingMsgSub = this.contactService.getIncomingMessage()
                 .subscribe(message => {
                     const randomIntervar = Math.round((10 * 1000) - 0.5 + Math.random() * (6 * 1000));
-
+                    this.typingLoader = true;
                     localStorage.setItem(this.id + "", storeId + "");
                     setTimeout(() => {
-                        localStorage.removeItem(this.id + "");
+                        this.typingLoader = false;
                         this.contactService.onAddMessage(storeId, message);
+                        localStorage.removeItem(this.id + "");
                     }, randomIntervar);
                 });
         }
