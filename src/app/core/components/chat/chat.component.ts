@@ -85,6 +85,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     backToList() {
+        this.notificationService.currentChat.next(-1);
         this.router.navigate(['../']);
     }
 

@@ -48,8 +48,6 @@ export class ChatListComponent implements OnInit, OnDestroy {
         this.notificationSub = this.contactService.storeNotificationChanged
             .subscribe((map) => {
                 this.newMessages = map;
-                console.log(this.newMessages);
-
             })
     }
 

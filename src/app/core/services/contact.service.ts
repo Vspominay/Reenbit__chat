@@ -54,20 +54,24 @@ export class ContactService {
 
         this.sortChats();
         this.updateChatStats();
-
     }
 
     updateChatStats() {
         for (const chat of this.chats) {
             let tempChatItem = localStorage.getItem(chat.id + 'n');
 
-            localStorage.setItem(chat.id + 'n', JSON.stringify({ chat_id: chat.id, messageCount: chat.messages.length }));
             if (tempChatItem) {
                 let currentChat = this.notificationService.getCurrentChat();
+
                 let storeInfo = JSON.parse(tempChatItem);
 
-                if (storeInfo.id !== chat.messages.length && currentChat !== chat.id) {
+                if (storeInfo.messageCount !== chat.messages.length && currentChat !== chat.id) {
+                    console.log(storeInfo);
+                    // console.log("chatId " + chat.id);
+
                     let subMesseges = chat.messages.length - storeInfo.messageCount;
+                    console.log(subMesseges);
+
                     if (subMesseges > 0) {
                         if (this.storeNotification.has(chat.id)) {
                             this.storeNotification.set(chat.id, this.getNewMessageById(chat.id) + subMesseges);
@@ -79,6 +83,8 @@ export class ContactService {
                     }
                 }
             }
+
+            localStorage.setItem(chat.id + 'n', JSON.stringify({ chat_id: chat.id, messageCount: chat.messages.length }));
         }
     }
 
