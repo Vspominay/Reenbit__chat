@@ -5,7 +5,7 @@ import { ContactService } from './contact.service';
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { tap, map } from 'rxjs';
 
 
 @Injectable({
@@ -26,13 +26,17 @@ export class ServerDataService {
     fetchChats() {
         return this.http.get<Chat[]>(`${environment.DB_URL}/chats.json`, httpOptions)
             .pipe(
+                map(chats => {
+                    return chats.map((chat, index) => {
+                        return {
+                            ...chat,
+                            id: index
+                        }
+                    });
+                }),
                 tap(chats => {
                     this.contactService.setChats(chats);
                 })
             );
     }
-
-
-
-
 }

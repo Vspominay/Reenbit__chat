@@ -1,4 +1,4 @@
-<div class="chat">
+<div class="chat" *ngIf="chat">
     <div class="chat-content">
         <div class="chat-header">
             <div class="container">
@@ -9,10 +9,12 @@
                     ></app-profile-logo>
                     <div class="name">
                         {{ chat.name }}
-                        <div class="loader-block" *ngIf="incomingTyping">
+                        <div class="loader-block" *ngIf="getTypingPerson()">
                             <app-typing-loader></app-typing-loader>
                         </div>
                     </div>
+
+                    <span class="chat-back" (click)="backToList()"> < </span>
                 </div>
             </div>
         </div>

@@ -15,6 +15,7 @@ import { AppChatComponent } from './core/components/app-chat/app-chat.component'
 import { FormsModule } from '@angular/forms';
 import { TypingLoaderComponent } from './shared/components/typing-loader/typing-loader.component';
 import { FilterPipe } from './shared/pipes/filter.pipe';
+import { StartChatComponent } from './core/components/chat/start-chat/start-chat.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { FilterPipe } from './shared/pipes/filter.pipe';
         AppChatComponent,
         TypingLoaderComponent,
         FilterPipe,
+        StartChatComponent,
     ],
     imports: [
         BrowserModule,

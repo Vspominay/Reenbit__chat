@@ -31,15 +31,23 @@ export class ContactService {
         this.chatsChanges.next(this.chats.slice());
     }
 
-    getChat(index: number) {
-        return this.chats[index];
+    getChat(id: number) {
+        return this.chats.filter(chat => chat.id === id)[0];
     }
 
-    onAddMessage(index: number, message: Message) {
-        this.chats[index].messages.push(message);
+    onAddMessage(id: number, message: Message) {
+
+        for (const chat of this.chats) {
+            if (chat.id === id) {
+                chat.messages.push(message);
+            }
+        }
+
         this.chatsChanges.next(this.chats.slice());
 
         this.injector.get(ServerDataService).saveChats();
+
+        this.sortChats();
     }
 
     getIncomingMessage() {
@@ -53,6 +61,14 @@ export class ContactService {
                     };
                 })
             )
+    }
+
+    private sortChats() {
+        let sortedChats = this.chats.sort((a: any, b: any) => {
+            return new Date(b.messages[b.messages.length - 1].date).getTime() - new Date(a.messages[a.messages.length - 1].date).getTime();
+        });
+
+        this.chatsChanges.next(sortedChats);
     }
 }
 

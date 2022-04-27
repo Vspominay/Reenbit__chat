@@ -23,11 +23,19 @@
             margin-left: 15px;
             color: #000;
             position: relative;
+            flex: 1 1 auto;
 
             .loader-block {
                 position: absolute;
                 bottom: -15px;
             }
+        }
+        .chat-back {
+            text-align: end;
+            margin-left: 15px;
+            padding: 0 20px;
+            font-size: 24px;
+            cursor: pointer;
         }
     }
 
@@ -44,7 +52,6 @@
 
         &::-webkit-scrollbar {
             width: 9px;
-            /* ширина для вертикального скролла */
             background-color: transparent;
         }
 
@@ -100,6 +107,11 @@
         padding: 25px 0;
         .send-block {
             max-width: 100%;
+        }
+    }
+    .chat-name {
+        .chat-back {
+            display: none;
         }
     }
 }

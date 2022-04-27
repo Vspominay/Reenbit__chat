@@ -4,11 +4,13 @@ import { ContactService } from './../../services/contact.service';
 import { PreviewChat } from './../../../shared/models/preview-chat.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { FilterPipe } from 'src/app/shared/pipes/filter.pipe';
 
 @Component({
     selector: 'app-chat-list',
     templateUrl: './chat-list.component.html',
-    styleUrls: ['./chat-list.component.scss']
+    styleUrls: ['./chat-list.component.scss'],
+    providers: [FilterPipe]
 })
 export class ChatListComponent implements OnInit, OnDestroy {
     private chatsChangeSub!: Subscription;
@@ -17,8 +19,12 @@ export class ChatListComponent implements OnInit, OnDestroy {
 
     searchString: string = '';
     chats!: PreviewChat[];
+    filteredChats: PreviewChat[] = [];
 
-    constructor(private contactService: ContactService, private serverDataService: ServerDataService) { }
+    constructor(
+        private contactService: ContactService,
+        private serverDataService: ServerDataService,
+        private filterPipe: FilterPipe) { }
 
     ngOnInit(): void {
         this.chatsChangeSub = this.contactService.chatsChanges
@@ -32,7 +38,10 @@ export class ChatListComponent implements OnInit, OnDestroy {
             });
 
         this.filterSub = this.contactService.searchValueChange
-            .subscribe(term => this.searchString = term);
+            .subscribe(term => {
+                this.searchString = term;
+                this.filterChats();
+            });
 
     }
 
@@ -40,6 +49,10 @@ export class ChatListComponent implements OnInit, OnDestroy {
         this.chatsChangeSub.unsubscribe();
         this.chatsGetSub.unsubscribe();
         this.filterSub.unsubscribe();
+    }
+
+    filterChats() {
+        this.filteredChats = this.filterPipe.transform(this.chats, this.searchString, 'name');
     }
 
     private generateChats(chats: Chat[]) {
@@ -52,6 +65,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
 
             tempPreview.date = lastMessage.date;
             tempPreview.text = lastMessage.text;
+            tempPreview.id = chat.id;
             tempPreview.image = chat.image;
             tempPreview.name = chat.name;
             tempPreview.online = chat.online;

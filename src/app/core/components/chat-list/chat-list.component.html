@@ -1,10 +1,16 @@
 <div class="messages-list">
     <h3>Chats</h3>
 
-    <app-preview-chat
-        *ngFor="let chat of chats | filter: searchString:'name'; let i = index"
-        [previewData]="chat"
-        [index]="i"
+    <ng-container
+        *ngIf="filteredChats.length > 0 || !searchString; else noChats"
     >
-    </app-preview-chat>
+        <app-preview-chat
+            *ngFor="let chat of chats | filter: searchString:'name'"
+            [previewData]="chat"
+        >
+        </app-preview-chat>
+    </ng-container>
+    <ng-template #noChats>
+        <span class="chats-notFound">chats not found :(</span>
+    </ng-template>
 </div>

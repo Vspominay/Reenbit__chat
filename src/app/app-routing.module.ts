@@ -1,3 +1,4 @@
+import { StartChatComponent } from './core/components/chat/start-chat/start-chat.component';
 import { ChatsResolverService } from './core/services/chats-resolver.service';
 import { ChatComponent } from './core/components/chat/chat.component';
 import { AppChatComponent } from './core/components/app-chat/app-chat.component';
@@ -9,6 +10,7 @@ const routes: Routes = [
         path: 'chat', component: AppChatComponent, children:
             [
                 { path: ':id', component: ChatComponent, resolve: [ChatsResolverService] },
+                { path: '', component: StartChatComponent },
             ]
     },
     { path: '', redirectTo: '/chat', pathMatch: 'full' }

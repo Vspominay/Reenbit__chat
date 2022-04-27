@@ -1,0 +1,20 @@
+.prew-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    max-width: 350px;
+    margin: 0 auto;
+
+    visibility: hidden;
+    h3 {
+        text-align: center;
+    }
+}
+
+@media (min-width: 768px) {
+    .prew-text {
+        visibility: visible;
+    }
+}

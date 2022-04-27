@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class PreviewChatComponent implements OnInit {
 
-    @Input() index!: number;
     @Input() previewData!: PreviewChat;
 
     constructor(
@@ -22,6 +21,6 @@ export class PreviewChatComponent implements OnInit {
     }
 
     setChat() {
-        this.router.navigate(['chat', this.index]);
+        this.router.navigate(['chat', this.previewData.id]);
     }
 }

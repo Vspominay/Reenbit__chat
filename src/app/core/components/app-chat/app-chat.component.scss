@@ -3,10 +3,14 @@
 .wrapper {
     width: 100vw;
     display: flex;
+    position: relative;
+    overflow-x: hidden;
 }
 
 .chat-area {
-    display: none;
+    position: absolute;
+    display: block;
+    flex: 1 1 auto;
 }
 // .chat-area {
 //     display: block;
@@ -41,6 +45,7 @@
         max-width: 450px;
     }
     .chat-area {
+        position: static;
         flex: 1 1 auto;
         display: block;
     }

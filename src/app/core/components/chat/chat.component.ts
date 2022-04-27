@@ -1,9 +1,8 @@
 import { Subscription } from 'rxjs';
 import { Chat } from './../../../shared/models/chat.model';
 import { ContactService } from './../../services/contact.service';
-import { Message } from './../../../shared/models/message.model';
-import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -19,11 +18,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     id!: number;
     chat!: Chat;
-    incomingTyping: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
         private contactService: ContactService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -35,11 +34,14 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.incomingMsgSub.unsubscribe();
+        if (this.incomingMsgSub) {
+            this.incomingMsgSub.unsubscribe();
+        }
     }
 
     onSubmit(form: NgForm) {
         if (form.valid) {
+            const storeId = this.chat.id;;
             const formValue = form.value;
             const newMessage = {
                 text: formValue.messageField,
@@ -47,17 +49,27 @@ export class ChatComponent implements OnInit, OnDestroy {
                 sender: false
             }
 
-            this.contactService.onAddMessage(this.id, newMessage);
+
+            this.contactService.onAddMessage(storeId, newMessage);
             form.reset();
             this.incomingMsgSub = this.contactService.getIncomingMessage()
                 .subscribe(message => {
                     const randomIntervar = Math.round((10 * 1000) - 0.5 + Math.random() * (6 * 1000));
-                    this.incomingTyping = true;
+
+                    localStorage.setItem(this.id + "", storeId + "");
                     setTimeout(() => {
-                        this.incomingTyping = false;
-                        this.contactService.onAddMessage(this.id, message);
+                        localStorage.removeItem(this.id + "");
+                        this.contactService.onAddMessage(storeId, message);
                     }, randomIntervar);
                 });
         }
+    }
+
+    backToList() {
+        this.router.navigate(['../']);
+    }
+
+    getTypingPerson() {
+        return localStorage.getItem(this.id + "");
     }
 }
