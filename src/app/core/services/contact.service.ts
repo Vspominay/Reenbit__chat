@@ -28,12 +28,12 @@ export class ContactService {
 
 
     getChats() {
-        return this.chats.slice();
+        return [...this.chats];
     }
 
     setChats(chats: Chat[]) {
         this.chats = chats;
-        this.chatsChanges.next(this.chats.slice());
+        this.chatsChanges.next([...this.chats]);
     }
 
     getChat(id: number) {
@@ -48,7 +48,7 @@ export class ContactService {
             }
         }
 
-        this.chatsChanges.next(this.chats.slice());
+        this.chatsChanges.next([...this.chats]);
 
         this.injector.get(ServerDataService).saveChats();
 
@@ -117,7 +117,7 @@ export class ContactService {
             }
         }
 
-        this.chatsChanges.next(this.chats.slice());
+        this.chatsChanges.next([...this.chats]);
     }
 
     private sortChats() {
